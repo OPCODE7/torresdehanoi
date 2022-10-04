@@ -1,21 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Las Torres de Hanoi</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
 </head>
-<body>
-    <header>
 
+<body>
+    <header class="header">
+        <div class="logo-header">
+            <img src="img/logo_size.jpg" alt="opcode-logo">
+        </div>
+        <nav class="navbar">
+            <ul class="nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="">About</a></li>
+                <li><a href="">Manual</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
-
+        <section class="manual-section">
+            <article class="slider">
+                <section class="slider-container">
+                    <div class="tower-hanoi-image slider-content visible-slide">
+                        <img src="img/tower-hanoi.png" alt="torres-de-hanoi">
+                    </div>
+                    <div class="slider-content how-to-play-slide">
+                        <h2 class="title-how-to-play-slide">¿Como se Juega?</h2>
+                        <p class="description-how-to-play-slide">El juego, en su forma más tradicional, consiste en tres
+                            varillas verticales. En una de las varillas se apila un número indeterminado de discos que
+                            determinará la complejidad de la solución, por regla general se consideran ocho discos. Los
+                            discos se apilan sobre una varilla en tamaño decreciente. No hay dos discos iguales, y todos
+                            ellos están apilados de mayor a menor radio en una de las varillas, quedando las otras dos
+                            varillas vacantes. El juego consiste en pasar todos los discos de la varilla ocupada a una
+                            de las otras varillas vacantes. </p>
+                    </div>
+                    <div class="slider-content rules-play">
+                        <h2 class="title-rules-play">Reglas del juego</h2>
+                        <ul>
+                            <li>Solo se puede mover un disco a la vez</li>
+                            <li>Un disco de mayor tamaño no puede descansar sobre uno más pequeño que él mismo.</li>
+                            <li>Sólo puedes desplazar el disco que se encuentre arriba en cada varilla.</li>
+                        </ul>
+                    </div>
+                    <div class="slider-indicators">
+                        <button type="button" id="indicator"></button>
+                        <button type="button" id="indicator"></button>
+                        <button type="button" id="indicator"></button>
+                    </div>
+                </section>
+            </article>
+            <article class="info-main-manual-section">
+                <h1 class="title-info-main">Torres de Hanoi</h1>
+                <a href="#section-play" class="play-now">Jugar Ahora</a>
+                <p class="description-info-main">Las Torres de Hanói es un rompecabezas o juego matemático inventado en
+                    1883 por el matemático francés Édouard Lucas.​</p>
+            </article>
+            <div class="social-media">
+                <a href="https://twitter.com/op_code7" class="fa-brands fa-twitter" target="_blank"></a>
+                <a href="https://github.com/OPCODE7/" class="fa-brands fa-github" target="_blank">
+                </a>
+                <a href="" class="fa-brands fa-facebook" target="_blank"></a>
+            </div>
+        </section>
     </main>
     <footer>
-        
+
     </footer>
+
+    <script src="js/index.js"></script>
 </body>
+
 </html>
