@@ -31,6 +31,7 @@ body {
 .logo-header {
     flex: 0 0 5%;
     height: 90%;
+    text-decoration: none;
 }
 
 .logo-header>img {
@@ -131,6 +132,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: rgb(175, 156, 140);
 }
 
 .title-how-to-play-slide{
@@ -247,4 +249,116 @@ body {
 .social-media>a:hover {
     transform: scale(1.2);
     transition: all .5s;
+}
+
+/************************** PLAY GAME ************************************/
+.play-game{
+    width: 70%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    border: 1px solid black;
+    padding: 1em;
+}
+
+.game-container{
+    width: 80%;
+    height: 50%;
+    position: relative;
+}
+
+.towers{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.tower,.base-tower{
+    background-color: #ccc;
+    width: 1em;
+    height: 100%;
+}
+
+.base-tower{
+    position: absolute;
+    width: 100%;
+    height: 1em;
+    transform: translateX(180);
+    bottom: 0;
+}
+
+.header-play-game{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+}
+
+.numbers-of-disks{
+    width: 25%;
+    height: 30%;
+}
+
+.disks{
+    width: 30%;
+    outline: none;
+    height: 100%;
+}
+
+.add-disks,.look-manual,.solve-auto{
+    width: 60%;
+    height: 100%;
+    margin-left: 5px;
+    cursor: pointer;
+    background-color: rgb(175, 136, 103);
+    color: white;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 500;
+    border: none;
+    text-transform: uppercase;
+}
+
+
+.look-manual{
+    width: 100%;
+    text-decoration: none;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.solve-auto{
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+
+.movements,.info-game{
+    width: 30%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.info-game{
+    width: 20%;
+}
+
+.counter-movements,.best-movements{
+    width: 100%;
+    border-radius: 5px;
+    border: 3px solid rgb(131, 102, 78);
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 5px;
+    color: rgb(131, 102, 78);
 }

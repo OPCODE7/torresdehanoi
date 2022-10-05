@@ -36,10 +36,10 @@ function slider(selectorSlide) {
 
 
     d.addEventListener("click", (e) => {
-        e.preventDefault();
-
+        
         $indicators.forEach((indicator, index) => {
             if (e.target === indicator) {
+                e.preventDefault();
                 $contentSlides[counterClicks].classList.remove("visible-slide");
                 $indicators[counterClicks].style.backgroundColor = "rgb(141, 138, 138)";
 
@@ -73,3 +73,12 @@ function slider(selectorSlide) {
         $indicators[counterClicks].style.backgroundColor = "rgb(214, 214, 214)";
     }
 }
+
+d.addEventListener("click", e => {
+    if(e.target.matches(".add-disks")){
+        let numberOfDisks= parseInt(d.querySelector(".disks").value);
+        if(numberOfDisks>0){
+            d.querySelector(".best-movements").textContent= `Movimientos mínimos requeridos: ${Math.pow(2,(numberOfDisks-1))}`;
+        }
+    }
+});
