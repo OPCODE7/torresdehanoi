@@ -36,7 +36,7 @@ function slider(selectorSlide) {
 
 
     d.addEventListener("click", (e) => {
-        
+
         $indicators.forEach((indicator, index) => {
             if (e.target === indicator) {
                 e.preventDefault();
@@ -51,7 +51,7 @@ function slider(selectorSlide) {
         });
     });
 
-    function prevSlide(){
+    function prevSlide() {
         $contentSlides[counterClicks].classList.remove("visible-slide");
         $indicators[counterClicks].style.backgroundColor = "rgb(141, 138, 138)";
         counterClicks--;
@@ -74,11 +74,71 @@ function slider(selectorSlide) {
     }
 }
 
+function addDisks(numberOfDisks, towerA) {
+    const $towerInitial = d.querySelector(towerA);
+    const $fragmentDisks = d.createDocumentFragment();
+    const $disks = d.querySelectorAll(".tower-A > .disk");
+
+    if ($towerInitial.children.length > 0) {
+        $disks.forEach(el => $towerInitial.removeChild(el));
+    }
+
+    let width = numberOfDisks * 10;
+    for (let i = 1; i <= numberOfDisks; i++) {
+        width -= 10;
+        let $disk = d.createElement("div");
+        $disk.setAttribute("id", i);
+        $disk.classList.add("disk");
+        $disk.style.width = `calc(100% - ${width}%)`;
+        $fragmentDisks.appendChild($disk);
+    }
+
+    $towerInitial.appendChild($fragmentDisks);
+
+}
+
 d.addEventListener("click", e => {
-    if(e.target.matches(".add-disks")){
-        let numberOfDisks= parseInt(d.querySelector(".disks").value);
-        if(numberOfDisks>0){
-            d.querySelector(".best-movements").textContent= `Movimientos mínimos requeridos: ${Math.pow(2,(numberOfDisks-1))}`;
+    if (e.target.matches(".add-disks")) {
+        let numberOfDisks = parseInt(d.querySelector(".disks").value);
+        if (numberOfDisks > 0 && numberOfDisks <= 8) {
+            d.querySelector(".best-movements").textContent = `Movimientos mínimos requeridos: ${Math.pow(2, (numberOfDisks - 1))}`;
+            addDisks(numberOfDisks, ".tower-A");
         }
     }
 });
+
+d.querySelector(".disks").addEventListener("keyup", e => {
+    let value = e.target.value;
+    const $button = d.querySelector(".add-disks");
+    const $validateMessage = d.querySelector(".validate-message");
+    $button.disabled = "true";
+
+
+    $button.disabled = true;
+    $button.classList.add("disabled");
+    if (!/[0-9]/g.test(value) && !(e.key==="Backspace")) {
+        $validateMessage.style.display = "block";
+        $validateMessage.textContent = "Ingresar solo números!";
+        e.target.style.border = "1px solid red";
+    } else {
+        $button.removeAttribute("disabled");
+        $validateMessage.style.display = "none";
+        e.target.style.border = "1px solid #ccc";
+        $button.classList.remove("disabled");
+
+        if (parseInt(value) <= 0 || parseInt(value) > 8) {
+            $button.classList.add("disabled");
+            $button.disabled = true;
+            $validateMessage.style.display = "block";
+            $validateMessage.textContent = "Ingresar cantidad en el rango 1-8";
+            e.target.style.border = "1px solid red";
+        } else {
+            $button.removeAttribute("disabled");
+            $button.classList.remove("disabled");
+            $validateMessage.style.display = "none";
+            e.target.style.border = "1px solid #ccc";
+        }
+    }
+
+});
+
