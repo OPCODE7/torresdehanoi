@@ -74,14 +74,15 @@ function slider(selectorSlide) {
     }
 }
 
+
 function addDisks(numberOfDisks, towerA) {
     const $towerInitial = d.querySelector(towerA);
     const $fragmentDisks = d.createDocumentFragment();
-    const $disks = d.querySelectorAll(".tower-A > .disk");
 
-    if ($towerInitial.children.length > 0) {
-        $disks.forEach(el => $towerInitial.removeChild(el));
-    }
+    d.querySelectorAll(".container-tower").forEach(el => {
+        el.querySelectorAll(".disk").forEach(disk =>el.removeChild(disk));
+    })
+
 
     let width = numberOfDisks * 10;
     for (let i = 1; i <= numberOfDisks; i++) {
@@ -105,6 +106,49 @@ d.addEventListener("click", e => {
             addDisks(numberOfDisks, ".tower-A");
         }
     }
+
+    if (!e.target.classList.contains("selected-disk") && e.target===d.querySelector(".disk")) {
+        d.querySelectorAll(".container-tower").forEach(el => {
+            el.setAttribute("data-ejector", "");
+            el.removeAttribute("data-receiver");
+        });
+    }
+
+    if (e.target.parentElement.hasAttribute("data-ejector")) {
+        if (e.target === e.target.parentElement.children[1]) {
+            e.target.classList.add("selected-disk");
+            d.querySelectorAll(".container-tower").forEach(el => {
+                el.setAttribute("data-receiver", "");
+                el.removeAttribute("data-ejector");
+            });
+
+        };
+    } else if (e.target.parentElement.hasAttribute("data-receiver")) {
+        const $diskSelected = d.querySelector(".selected-disk");
+
+        if(e.target.parentElement.children.length>1){
+            let idTopDisk= parseInt(e.target.parentElement.children[1].getAttribute("id"));
+
+            console.log(idTopDisk,parseInt($diskSelected.getAttribute("id")))
+            if(idTopDisk > parseInt($diskSelected.getAttribute("id"))){
+                e.target.parentElement.querySelector(".tower").insertAdjacentElement("afterend", $diskSelected);
+                $diskSelected.classList.remove("selected-disk");
+                d.querySelectorAll(".container-tower").forEach(el => {
+                    el.setAttribute("data-ejector", "");
+                    el.removeAttribute("data-receiver");
+                });
+            }
+        }else{
+            e.target.parentElement.querySelector(".tower").insertAdjacentElement("afterend", $diskSelected);
+            $diskSelected.classList.remove("selected-disk");
+            d.querySelectorAll(".container-tower").forEach(el => {
+                el.setAttribute("data-ejector", "");
+                el.removeAttribute("data-receiver");
+            });
+        }
+        
+        
+    }
 });
 
 d.querySelector(".disks").addEventListener("keyup", e => {
@@ -116,7 +160,7 @@ d.querySelector(".disks").addEventListener("keyup", e => {
 
     $button.disabled = true;
     $button.classList.add("disabled");
-    if (!/[0-9]/g.test(value) && !(e.key==="Backspace")) {
+    if (!/[0-9]/g.test(value) && !(e.key === "Backspace")) {
         $validateMessage.style.display = "block";
         $validateMessage.textContent = "Ingresar solo números!";
         e.target.style.border = "1px solid red";
@@ -141,4 +185,8 @@ d.querySelector(".disks").addEventListener("keyup", e => {
     }
 
 });
+
+
+
+
 
