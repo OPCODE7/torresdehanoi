@@ -1,4 +1,9 @@
 const d = document;
+let $= selector => d.querySelector(selector);
+let $All= selector => d.querySelectorAll(selector);  
+let numberOfMovements = 0;
+const $towerA= $(".tower-A"),$towerB= $(".tower-B"),$towerC= $(".tower-C"),$bestMovements= $(".best-movements"), $counterMovements= $(".counter-movements");
+
 
 d.addEventListener("DOMContentLoaded", e => {
     slider(".slider-content");
@@ -76,11 +81,11 @@ function slider(selectorSlide) {
 
 
 function addDisks(numberOfDisks, towerA) {
-    const $towerInitial = d.querySelector(towerA);
+    const $towerInitial = towerA;
     const $fragmentDisks = d.createDocumentFragment();
 
-    d.querySelectorAll(".container-tower").forEach(el => {
-        el.querySelectorAll(".disk").forEach(disk =>el.removeChild(disk));
+    $All(".container-tower").forEach(el => {
+        el.querySelectorAll(".disk").forEach(disk => el.removeChild(disk));
     })
 
 
@@ -100,15 +105,15 @@ function addDisks(numberOfDisks, towerA) {
 
 d.addEventListener("click", e => {
     if (e.target.matches(".add-disks")) {
-        let numberOfDisks = parseInt(d.querySelector(".disks").value);
+        let numberOfDisks = parseInt($(".disks").value);
         if (numberOfDisks > 0 && numberOfDisks <= 8) {
-            d.querySelector(".best-movements").textContent = `Movimientos mínimos requeridos: ${Math.pow(2, (numberOfDisks - 1))}`;
-            addDisks(numberOfDisks, ".tower-A");
+            $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2, (numberOfDisks - 1))}`;
+            addDisks(numberOfDisks, $towerA);
         }
     }
 
-    if (!e.target.classList.contains("selected-disk") && e.target===d.querySelector(".disk")) {
-        d.querySelectorAll(".container-tower").forEach(el => {
+    if (!e.target.classList.contains("selected-disk") && e.target === $(".disk")) {
+        $All(".container-tower").forEach(el => {
             el.setAttribute("data-ejector", "");
             el.removeAttribute("data-receiver");
         });
@@ -121,34 +126,63 @@ d.addEventListener("click", e => {
                 el.setAttribute("data-receiver", "");
                 el.removeAttribute("data-ejector");
             });
-
         };
     } else if (e.target.parentElement.hasAttribute("data-receiver")) {
         const $diskSelected = d.querySelector(".selected-disk");
-
-        if(e.target.parentElement.children.length>1){
-            let idTopDisk= parseInt(e.target.parentElement.children[1].getAttribute("id"));
-
-            console.log(idTopDisk,parseInt($diskSelected.getAttribute("id")))
-            if(idTopDisk > parseInt($diskSelected.getAttribute("id"))){
-                e.target.parentElement.querySelector(".tower").insertAdjacentElement("afterend", $diskSelected);
-                $diskSelected.classList.remove("selected-disk");
-                d.querySelectorAll(".container-tower").forEach(el => {
-                    el.setAttribute("data-ejector", "");
-                    el.removeAttribute("data-receiver");
-                });
-            }
-        }else{
+        let idDiskSelected= parseInt($diskSelected.getAttribute("id"));
+        let moveDisk = () => {
             e.target.parentElement.querySelector(".tower").insertAdjacentElement("afterend", $diskSelected);
             $diskSelected.classList.remove("selected-disk");
-            d.querySelectorAll(".container-tower").forEach(el => {
+            $All(".container-tower").forEach(el => {
                 el.setAttribute("data-ejector", "");
                 el.removeAttribute("data-receiver");
             });
         }
         
+        if (e.target.parentElement.children.length > 1) {
+            let idTopDisk = parseInt(e.target.parentElement.children[1].getAttribute("id"));
+            
+            if (idTopDisk > idDiskSelected) {
+                moveDisk();
+                numberOfMovements++;
+                
+            } else if (idTopDisk === idDiskSelected) {
+                moveDisk();
+                numberOfMovements++;
+            }
+        } else {
+            moveDisk();
+            numberOfMovements++;
+        }
+
+        $counterMovements.textContent = `${numberOfMovements} movimientos`;
+        if(e.target.parentElement=== $towerC){
+            if($towerA.children.length<2 && $towerB.children.length<2){
+                // let id= [];
+                // d.querySelector(".tower-C").querySelectorAll(".disk").forEach(el => {
+                //     id.push(parseInt(el.getAttribute("id")));
+                // });
+
+                // if(id.sort()===id) 
+                $(".opacity-to-body").style.display= "block";
+                $(".win-game").style.display= "flex";
+                $(".total-movements").textContent= `En hora buena has completado el juego con un total de ${numberOfMovements} movimientos`;
+            }
+        }
         
     }
+
+    if(e.target.matches(".opacity-to-body")){
+        $(".opacity-to-body").style.display= "none";
+        $(".win-game").style.display= "none";
+        $All(".tower-C > .disk").forEach(el => $towerC.removeChild(el));
+        $(".disks").value= "";
+        $bestMovements.textContent= "Movimientos mínimos requeridos: ";
+        $counterMovements.textContent= "0 Movimientos";
+        
+    }
+
+
 });
 
 d.querySelector(".disks").addEventListener("keyup", e => {
@@ -185,6 +219,8 @@ d.querySelector(".disks").addEventListener("keyup", e => {
     }
 
 });
+
+
 
 
 
