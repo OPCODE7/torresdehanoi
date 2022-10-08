@@ -81,13 +81,14 @@ function slider(selectorSlide) {
 
 
 function addDisks(numberOfDisks, towerA) {
+  
     const $towerInitial = towerA;
     const $fragmentDisks = d.createDocumentFragment();
-
+    
     $All(".container-tower").forEach(el => {
         el.querySelectorAll(".disk").forEach(disk => el.removeChild(disk));
-    })
-
+    });
+    
 
     let width = numberOfDisks * 10;
     for (let i = 1; i <= numberOfDisks; i++) {
@@ -105,11 +106,13 @@ function addDisks(numberOfDisks, towerA) {
 
 d.addEventListener("click", e => {
     if (e.target.matches(".add-disks")) {
+        numberOfMovements= 0;
         let numberOfDisks = parseInt($(".disks").value);
         if (numberOfDisks > 0 && numberOfDisks <= 8) {
             $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2, (numberOfDisks - 1))}`;
             addDisks(numberOfDisks, $towerA);
         }
+        $counterMovements.textContent= `${numberOfMovements} movimientos`;
     }
 
     if (!e.target.classList.contains("selected-disk") && e.target === $(".disk")) {
