@@ -367,6 +367,7 @@ body {
     height: 10%;
     border: 2px solid rgb(131, 102, 78);
     z-index: 2;
+    cursor: pointer;
 }
 
 .disks {
@@ -377,6 +378,13 @@ body {
     font-weight: bold;
     font-family: inherit;
     text-align: center;
+}
+
+.fa-rotate{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: rgb(175, 136, 103);
+    cursor: pointer;
 }
 
 .game-container {
@@ -447,6 +455,7 @@ body {
     background-color: #ccc;
     width: 1em;
     height: 100%;
+    cursor: pointer;
 }
 
 .tower {

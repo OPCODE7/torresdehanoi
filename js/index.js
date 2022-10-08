@@ -1,8 +1,8 @@
 const d = document;
-let $= selector => d.querySelector(selector);
-let $All= selector => d.querySelectorAll(selector);  
+let $ = selector => d.querySelector(selector);
+let $All = selector => d.querySelectorAll(selector);
 let numberOfMovements = 0;
-const $towerA= $(".tower-A"),$towerB= $(".tower-B"),$towerC= $(".tower-C"),$bestMovements= $(".best-movements"), $counterMovements= $(".counter-movements");
+const $towerA = $(".tower-A"), $towerB = $(".tower-B"), $towerC = $(".tower-C"), $bestMovements = $(".best-movements"), $counterMovements = $(".counter-movements");
 
 
 d.addEventListener("DOMContentLoaded", e => {
@@ -79,16 +79,21 @@ function slider(selectorSlide) {
     }
 }
 
+function reset() {
+    addDisks(parseInt($(".disks").value), $towerA);
+
+    $counterMovements.textContent = `0 Movimientos`;
+}
 
 function addDisks(numberOfDisks, towerA) {
-  
+
     const $towerInitial = towerA;
     const $fragmentDisks = d.createDocumentFragment();
-    
+
     $All(".container-tower").forEach(el => {
         el.querySelectorAll(".disk").forEach(disk => el.removeChild(disk));
     });
-    
+
 
     let width = numberOfDisks * 10;
     for (let i = 1; i <= numberOfDisks; i++) {
@@ -106,13 +111,13 @@ function addDisks(numberOfDisks, towerA) {
 
 d.addEventListener("click", e => {
     if (e.target.matches(".add-disks")) {
-        numberOfMovements= 0;
+        numberOfMovements = 0;
         let numberOfDisks = parseInt($(".disks").value);
         if (numberOfDisks > 0 && numberOfDisks <= 8) {
             $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2, (numberOfDisks - 1))}`;
             addDisks(numberOfDisks, $towerA);
         }
-        $counterMovements.textContent= `${numberOfMovements} movimientos`;
+        $counterMovements.textContent = `${numberOfMovements} movimientos`;
     }
 
     if (!e.target.classList.contains("selected-disk") && e.target === $(".disk")) {
@@ -132,7 +137,7 @@ d.addEventListener("click", e => {
         };
     } else if (e.target.parentElement.hasAttribute("data-receiver")) {
         const $diskSelected = d.querySelector(".selected-disk");
-        let idDiskSelected= parseInt($diskSelected.getAttribute("id"));
+        let idDiskSelected = parseInt($diskSelected.getAttribute("id"));
         let moveDisk = () => {
             e.target.parentElement.querySelector(".tower").insertAdjacentElement("afterend", $diskSelected);
             $diskSelected.classList.remove("selected-disk");
@@ -141,14 +146,14 @@ d.addEventListener("click", e => {
                 el.removeAttribute("data-receiver");
             });
         }
-        
+
         if (e.target.parentElement.children.length > 1) {
             let idTopDisk = parseInt(e.target.parentElement.children[1].getAttribute("id"));
-            
+
             if (idTopDisk > idDiskSelected) {
                 moveDisk();
                 numberOfMovements++;
-                
+
             } else if (idTopDisk === idDiskSelected) {
                 moveDisk();
                 numberOfMovements++;
@@ -159,30 +164,29 @@ d.addEventListener("click", e => {
         }
 
         $counterMovements.textContent = `${numberOfMovements} movimientos`;
-        if(e.target.parentElement=== $towerC){
-            if($towerA.children.length<2 && $towerB.children.length<2){
-                // let id= [];
-                // d.querySelector(".tower-C").querySelectorAll(".disk").forEach(el => {
-                //     id.push(parseInt(el.getAttribute("id")));
-                // });
-
-                // if(id.sort()===id) 
-                $(".opacity-to-body").style.display= "block";
-                $(".win-game").style.display= "flex";
-                $(".total-movements").textContent= `En hora buena has completado el juego con un total de ${numberOfMovements} movimientos`;
+        if (e.target.parentElement === $towerC) {
+            if ($towerA.children.length < 2 && $towerB.children.length < 2) {
+                $(".opacity-to-body").style.display = "block";
+                $(".win-game").style.display = "flex";
+                $(".total-movements").textContent = `En hora buena has completado el juego con un total de ${numberOfMovements} movimientos`;
+                reset();
             }
         }
+
         
     }
-
-    if(e.target.matches(".opacity-to-body")){
-        $(".opacity-to-body").style.display= "none";
-        $(".win-game").style.display= "none";
+    if(e.target.matches(".fa-rotate")){
+        reset();
+    };
+    
+    if (e.target.matches(".opacity-to-body")) {
+        $(".opacity-to-body").style.display = "none";
+        $(".win-game").style.display = "none";
         $All(".tower-C > .disk").forEach(el => $towerC.removeChild(el));
-        $(".disks").value= "";
-        $bestMovements.textContent= "Movimientos mínimos requeridos: ";
-        $counterMovements.textContent= "0 Movimientos";
-        
+        $(".disks").value = "";
+        $bestMovements.textContent = "Movimientos mínimos requeridos: ";
+        $counterMovements.textContent = "0 Movimientos";
+
     }
 
 
