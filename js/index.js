@@ -1,13 +1,26 @@
+
 const d = document;
 let $ = selector => d.querySelector(selector);
 let $All = selector => d.querySelectorAll(selector);
-let numberOfMovements = 0;
+let numberOfMovements = 0, movements= [];
 const $towerA = $(".tower-A"), $towerB = $(".tower-B"), $towerC = $(".tower-C"), $bestMovements = $(".best-movements"), $counterMovements = $(".counter-movements");
 
 
 d.addEventListener("DOMContentLoaded", e => {
     slider(".slider-content");
+    HanoiAlgorithm(3,"A","B","C");
+    movements.forEach(el => console.log(el))
 });
+
+function HanoiAlgorithm(numberOfDisks,towerInitial,towerAux,towerFinal){
+    if(numberOfDisks===1){
+        movements.push({numberOfDisks,towerInitial,towerFinal});
+    }else{
+        HanoiAlgorithm(numberOfDisks-1,towerInitial,towerFinal,towerAux);
+        movements.push({numberOfDisks,towerInitial,towerFinal});
+        HanoiAlgorithm(numberOfDisks-1,towerAux,towerInitial,towerFinal);
+    }
+}
 
 function slider(selectorSlide) {
     let counterClicks = 0;
@@ -114,7 +127,7 @@ d.addEventListener("click", e => {
         numberOfMovements = 0;
         let numberOfDisks = parseInt($(".disks").value);
         if (numberOfDisks > 0 && numberOfDisks <= 8) {
-            $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2, (numberOfDisks - 1))}`;
+            $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2,numberOfDisks) - 1}`;
             addDisks(numberOfDisks, $towerA);
         }
         $counterMovements.textContent = `${numberOfMovements} movimientos`;
