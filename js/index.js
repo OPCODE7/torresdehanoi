@@ -107,7 +107,6 @@ function addDisks(numberOfDisks, towerA) {
         el.querySelectorAll(".disk").forEach(disk => el.removeChild(disk));
     });
 
-
     let width = numberOfDisks * 10;
     for (let i = 1; i <= numberOfDisks; i++) {
         width -= 10;
@@ -124,11 +123,16 @@ function addDisks(numberOfDisks, towerA) {
 
 d.addEventListener("click", e => {
     if (e.target.matches(".add-disks")) {
+        const $validateMessage = d.querySelector(".validate-message");
         numberOfMovements = 0;
         let numberOfDisks = parseInt($(".disks").value);
         if (numberOfDisks > 0 && numberOfDisks <= 8) {
             $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2,numberOfDisks) - 1}`;
             addDisks(numberOfDisks, $towerA);
+        }
+        if($(".disks").value===""){
+            $validateMessage.style.display = "block";
+            $validateMessage.textContent = "Ingresar número de discos";
         }
         $counterMovements.textContent = `${numberOfMovements} movimientos`;
     }
@@ -200,6 +204,23 @@ d.addEventListener("click", e => {
         $bestMovements.textContent = "Movimientos mínimos requeridos: ";
         $counterMovements.textContent = "0 Movimientos";
 
+    }
+
+    if(e.target.matches(".auto-solve")){
+        const $disks= $All(".container-tower > .disk");
+        let delay= 0;
+        $disks.forEach((el=> {
+            el.style.animationName= "moveToC";
+            el.style.animationDuration= "4s";
+            el.style.animationDelay= `${delay}s`;
+            delay+=4;
+        }));
+
+        let counter= 0;
+        setInterval(() => {
+            counter++;
+            console.log(counter);
+        }, 1000);
     }
 
 

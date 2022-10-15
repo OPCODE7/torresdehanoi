@@ -11,10 +11,14 @@
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+
+}
+
+*::selection {
+    background-color: rgb(175, 136, 103);
 }
 
 body {
-    padding: 0 1em;
     font-family: 'Roboto', sans-serif;
     position: relative;
 }
@@ -28,15 +32,21 @@ body {
     align-items: center;
 }
 
+.header,
+main {
+    padding: 0 2em;
+}
+
 .logo-header {
-    flex: 0 0 5%;
-    height: 90%;
+    height: 100%;
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 .logo-header>img {
-    width: 100%;
-    height: 100%;
+    width: 70px;
+    height: 50px;
 }
 
 .navbar {
@@ -118,7 +128,7 @@ body {
     position: relative;
 }
 
-.opacity-to-body{
+.opacity-to-body {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -220,8 +230,8 @@ body {
 .social-media {
     width: auto;
     height: 6em;
-    position: fixed;
-    right: 1.2rem;
+    position: absolute;
+    right: 0;
     bottom: 1.5rem;
     z-index: 1;
     display: flex;
@@ -256,40 +266,11 @@ body {
     font-size: 5em;
 }
 
-.validate-message {
-    width: 110%;
-    padding: .5em;
-    height: auto;
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-    position: absolute;
-    bottom: -3.5em;
-    left: 1em;
-    border: 2px solid rgb(175, 136, 103);
-    display: none;
-    font-size: .9em;
-}
-
-.validate-message::after {
-    content: '';
-    width: 1em;
-    height: 1em;
-    position: absolute;
-    top: -9px;
-    left: 1em;
-    transform: rotate(45deg);
-    background-color: white;
-    border: 2px solid rgb(175, 136, 103);
-    border-right: none;
-    border-bottom: none;
-}
-
 .visible-slide {
     right: 0;
 }
 
-.win-game{
+.win-game {
     width: 30%;
     height: 40%;
     border-radius: 5px;
@@ -297,7 +278,7 @@ body {
     z-index: 5;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     background-color: white;
     display: none;
     flex-direction: column;
@@ -307,7 +288,7 @@ body {
     text-align: center;
 }
 
-.win-game > p{
+.win-game>p {
     font-size: 1.3rem;
     font-weight: 500;
     margin-top: 1rem;
@@ -316,7 +297,7 @@ body {
 /************************** PLAY GAME ************************************/
 .add-disks,
 .look-manual,
-.solve-auto {
+.auto-solve {
     width: 60%;
     height: 100%;
     margin-left: 5px;
@@ -380,12 +361,15 @@ body {
     text-align: center;
 }
 
-.fa-rotate{
+.fa-rotate {
+    position: absolute;
+    top: 5px;
     font-size: 1.5em;
     font-weight: bold;
     color: rgb(175, 136, 103);
     cursor: pointer;
 }
+
 
 .game-container {
     width: 80%;
@@ -400,6 +384,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 1em;
+    position: relative;
 }
 
 .look-manual {
@@ -424,6 +409,9 @@ body {
 }
 
 .numbers-of-disks {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: relative;
     width: 25%;
     height: 30%;
@@ -451,7 +439,7 @@ body {
 }
 
 
-.tower{
+.tower {
     background-color: #ccc;
     width: 1em;
     height: 100%;
@@ -467,17 +455,244 @@ body {
     z-index: 1;
 }
 
-.selected-disk{
+.selected-disk {
     position: absolute;
     top: -6em;
 }
 
-.solve-auto {
+.auto-solve {
     border-radius: 5px;
     width: 100%;
     padding: 10px 0;
 }
 
+.validate-message {
+    width: 110%;
+    padding: .5em;
+    height: auto;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    position: absolute;
+    bottom: -3.5em;
+    left: 1em;
+    border: 2px solid rgb(175, 136, 103);
+    display: none;
+    font-size: .9em;
+}
+
+.validate-message::after {
+    content: '';
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    top: -9px;
+    left: 1em;
+    transform: rotate(45deg);
+    background-color: white;
+    border: 2px solid rgb(175, 136, 103);
+    border-right: none;
+    border-bottom: none;
+}
 
 
+/***************************************** FOOTER ***************************************/
+footer {
+    margin-top: 2em;
+    width: 100%;
+    height: 20vh;
+    background-color: rgb(131, 102, 78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+footer>small {
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+}
+
+
+@media(max-width: 1100px) {
+
+    /**************************** MAIN ***********************************/
+    .description-info-main {
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 2em;
+    }
+
+    .description-how-to-play-slide,
+    .rules-play ul {
+        font-size: 1rem;
+        line-height: 1.5em;
+        margin-top: 1em;
+    }
+
+    .fa-rotate {
+        font-size: 1.2rem;
+    }
+
+    .how-to-play-slide,
+    .rules-play {
+        padding: 2em;
+    }
+
+    .info-main-manual-section {
+        margin-top: 1em;
+        width: 40%;
+        height: 80%;
+        justify-content: space-evenly;
+        padding: 3em;
+    }
+
+    .manual-section {
+        flex-direction: row;
+        align-items: center;
+        height: 90vh;
+    }
+
+    .play-now {
+        width: 80%;
+        order: 1;
+    }
+
+    .slider {
+        width: 60%;
+        height: 80%;
+        position: relative;
+    }
+
+    .slider-container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .social-media {
+        position: absolute;
+        right: 0;
+    }
+
+    .title-info-main {
+        font-size: 3rem;
+    }
+
+    .title-how-to-play-slide {
+        font-size: 3em;
+    }
+
+    .title-rules-play {
+        font-size: 3em;
+    }
+
+    .win-game {
+        width: 50%;
+    }
+
+    /************************ PLAY GAME *************************************/
+    .add-disks,
+    .look-manual,
+    .auto-solve {
+        width: 60%;
+        margin-left: 0px;
+        font-size: .8rem;
+    }
+
+    .counter-movements,
+    .best-movements {
+        font-size: .9rem;
+        padding: 5px;
+    }
+
+    .disks {
+        width: 30%;
+        font-size: 1em;
+    }
+
+
+    .game-container {
+        width: 80%;
+        height: 50%;
+        position: relative;
+    }
+
+    .look-manual {
+        width: 100%;
+        padding: 10px 0;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .movements,
+    .info-game {
+        width: 30%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+    }
+
+    .info-game {
+        width: 30%;
+    }
+
+    .numbers-of-disks {
+        position: relative;
+        width: 30%;
+        height: 30%;
+    }
+
+    .play-game {
+        width: 100%;
+        height: 100vh;
+        padding: 0;
+    }
+
+    .auto-solve {
+        border-radius: 5px;
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+@media(max-width: 765px) {
+
+    /*********************************** MAIN  ******************************************/
+    .description-how-to-play-slide,
+    .rules-play ul {
+        line-height: 1em;
+    }
+
+    .info-main-manual-section {
+        width: 100%;
+        height: 60vh;
+    }
+
+    .manual-section {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .play-now {
+        width: 50%;
+        order: 1;
+    }
+
+    .slider {
+        width: 100%;
+        height: 50vh;
+        margin-top: 2em;
+        position: relative;
+    }
+
+    .social-media {
+        position: fixed;
+        right: 1em;
+    }
+
+    .win-game {
+        width: 70%;
+        padding: 0 1rem;
+    }
+}
