@@ -2,23 +2,21 @@
 const d = document;
 let $ = selector => d.querySelector(selector);
 let $All = selector => d.querySelectorAll(selector);
-let numberOfMovements = 0, movements= [];
-const $towerA = $(".tower-A"), $towerB = $(".tower-B"), $towerC = $(".tower-C"), $bestMovements = $(".best-movements"), $counterMovements = $(".counter-movements");
+let numberOfMovements = 0, movements = [];
+const $towerA = $(".tower-A"), $towerB = $(".tower-B"), $towerC = $(".tower-C"), $bestMovements = $(".best-movements"), $counterMovements = $(".counter-movements"), $guideSolution= $(".guide-solution");
 
 
 d.addEventListener("DOMContentLoaded", e => {
     slider(".slider-content");
-    HanoiAlgorithm(3,"A","B","C");
-    movements.forEach(el => console.log(el))
 });
 
-function HanoiAlgorithm(numberOfDisks,towerInitial,towerAux,towerFinal){
-    if(numberOfDisks===1){
-        movements.push({numberOfDisks,towerInitial,towerFinal});
-    }else{
-        HanoiAlgorithm(numberOfDisks-1,towerInitial,towerFinal,towerAux);
-        movements.push({numberOfDisks,towerInitial,towerFinal});
-        HanoiAlgorithm(numberOfDisks-1,towerAux,towerInitial,towerFinal);
+function HanoiAlgorithm(numberOfDisks, towerInitial, towerAux, towerFinal) {
+    if (numberOfDisks === 1) {
+        movements.push({ numberOfDisks, towerInitial, towerFinal });
+    } else {
+        HanoiAlgorithm(numberOfDisks - 1, towerInitial, towerFinal, towerAux);
+        movements.push({ numberOfDisks, towerInitial, towerFinal });
+        HanoiAlgorithm(numberOfDisks - 1, towerAux, towerInitial, towerFinal);
     }
 }
 
@@ -36,14 +34,14 @@ function slider(selectorSlide) {
 
     d.addEventListener("mouseover", e => {
         $indicators.forEach(el => {
-            if (e.target === el) clearInterval(playSlider);
+            if (e.target === el || e.target.matches(".slider-content")) clearInterval(playSlider);
         })
     });
 
     d.addEventListener("mouseout", e => {
         let isLeave = false;
         $indicators.forEach(el => {
-            if (e.target === el) isLeave = true;
+            if (e.target === el || e.target.matches(".slider-content")) isLeave = true;
         })
 
         if (isLeave) {
@@ -94,12 +92,12 @@ function slider(selectorSlide) {
 
 function reset() {
     addDisks(parseInt($(".disks").value), $towerA);
+    $(".guide-solution").style.display = "none";
 
     $counterMovements.textContent = `0 Movimientos`;
 }
 
 function addDisks(numberOfDisks, towerA) {
-
     const $towerInitial = towerA;
     const $fragmentDisks = d.createDocumentFragment();
 
@@ -113,6 +111,7 @@ function addDisks(numberOfDisks, towerA) {
         let $disk = d.createElement("div");
         $disk.setAttribute("id", i);
         $disk.classList.add("disk");
+        $disk.textContent = `${i}`;
         $disk.style.width = `calc(100% - ${width}%)`;
         $fragmentDisks.appendChild($disk);
     }
@@ -127,10 +126,13 @@ d.addEventListener("click", e => {
         numberOfMovements = 0;
         let numberOfDisks = parseInt($(".disks").value);
         if (numberOfDisks > 0 && numberOfDisks <= 8) {
-            $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2,numberOfDisks) - 1}`;
+            $bestMovements.textContent = `Movimientos mínimos requeridos: ${Math.pow(2, numberOfDisks) - 1}`;
             addDisks(numberOfDisks, $towerA);
+            HanoiAlgorithm(numberOfDisks, "A", "B", "C");
+            $(".guide-solution").style.display= "none";
+
         }
-        if($(".disks").value===""){
+        if ($(".disks").value === "") {
             $validateMessage.style.display = "block";
             $validateMessage.textContent = "Ingresar número de discos";
         }
@@ -183,19 +185,23 @@ d.addEventListener("click", e => {
         $counterMovements.textContent = `${numberOfMovements} movimientos`;
         if (e.target.parentElement === $towerC) {
             if ($towerA.children.length < 2 && $towerB.children.length < 2) {
-                $(".opacity-to-body").style.display = "block";
-                $(".win-game").style.display = "flex";
-                $(".total-movements").textContent = `En hora buena has completado el juego con un total de ${numberOfMovements} movimientos`;
-                reset();
+                const $disksFromC = [...$towerC.querySelectorAll(".disk")];
+                if ($disksFromC === $disksFromC.sort()) {
+
+                    $(".opacity-to-body").style.display = "block";
+                    $(".win-game").style.display = "flex";
+                    $(".total-movements").textContent = `En hora buena has completado el juego con un total de ${numberOfMovements} movimientos`;
+                    reset();
+                }
             }
         }
 
-        
+
     }
-    if(e.target.matches(".fa-rotate")){
+    if (e.target.matches(".fa-rotate")) {
         reset();
     };
-    
+
     if (e.target.matches(".opacity-to-body")) {
         $(".opacity-to-body").style.display = "none";
         $(".win-game").style.display = "none";
@@ -206,21 +212,65 @@ d.addEventListener("click", e => {
 
     }
 
-    if(e.target.matches(".auto-solve")){
-        const $disks= $All(".container-tower > .disk");
-        let delay= 0;
-        $disks.forEach((el=> {
-            el.style.animationName= "moveToC";
-            el.style.animationDuration= "4s";
-            el.style.animationDelay= `${delay}s`;
-            delay+=4;
-        }));
+    if (e.target.matches(".auto-solve")) {
+        //funcional pero sin animación
+        /*
+        movements.forEach((el) => {
+            let towerInitial = el.towerInitial, towerFinal = el.towerFinal;
+            const $disksA = $All(".tower-A > .disk");
+            const $disksB = $All(".tower-B > .disk");
+            const $disksC = $All(".tower-C > .disk");
 
-        let counter= 0;
-        setInterval(() => {
-            counter++;
-            console.log(counter);
-        }, 1000);
+            if (towerInitial === "A" && towerFinal === "B") {
+                $disksA.forEach(disk => {
+                    if (el.numberOfDisks == disk.getAttribute("id")) {
+                        $towerB.prepend(disk);
+                    }
+                });
+            } else if (towerInitial === "A" && towerFinal === "C") {
+                $disksA.forEach(disk => {
+                    if (el.numberOfDisks == disk.getAttribute("id")) {
+                        $towerC.prepend(disk);
+                    }
+                });
+            } else if (towerInitial === "B" && towerFinal === "A") {
+                $disksB.forEach(disk => {
+                    if (el.numberOfDisks == disk.getAttribute("id")) {
+                        $towerA.prepend(disk);
+                    }
+                });
+            } else if (towerInitial === "B" && towerFinal === "C") {
+                $disksB.forEach(disk => {
+                    if (el.numberOfDisks == disk.getAttribute("id")) {
+                        $towerC.prepend(disk);
+                    }
+                });
+            } else if (towerInitial === "C" && towerFinal === "A") {
+                $disksC.forEach(disk => {
+                    if (el.numberOfDisks == disk.getAttribute("id")) {
+                        $towerA.prepend(disk);
+                    }
+                });
+            } else if (towerInitial === "C" && towerFinal === "B") {
+                $disksC.forEach(disk => {
+                    if (el.numberOfDisks == disk.getAttribute("id")) {
+                        $towerB.prepend(disk);
+                    }
+                });
+            }
+        });
+        */
+
+
+        if($towerA.querySelectorAll(".disk").length>0){
+            $(".guide-solution > ol").querySelectorAll("li").forEach(el => $(".guide-solution > ol").removeChild(el));
+            
+            movements.forEach(el => {
+                $(".guide-solution > ol").innerHTML += `<li>Mover disco ${el.numberOfDisks} de la torre ${el.towerInitial}  a la torre ${el.towerFinal}</li>`
+            });
+            $guideSolution.style.display = "block";
+        }
+
     }
 
 
@@ -235,8 +285,8 @@ d.querySelector(".disks").addEventListener("keyup", e => {
 
     $button.disabled = true;
     $button.classList.add("disabled");
-    if (!/[0-9]/g.test(value) && !(e.key === "Backspace")) {
-        $validateMessage.style.display = "block";
+    $validateMessage.style.display = "block";
+    if (!/\d/g.test(value) && !(e.key === "Backspace")) {
         $validateMessage.textContent = "Ingresar solo números!";
         e.target.style.border = "1px solid red";
     } else {
@@ -260,6 +310,8 @@ d.querySelector(".disks").addEventListener("keyup", e => {
     }
 
 });
+
+
 
 
 

@@ -1,0 +1,211 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main {
+    padding: 0;
+}
+
+body {
+    background-color: whitesmoke;
+    position: relative;
+}
+
+.header {
+    background-color: white;
+}
+
+.banner-manual {
+    width: 100%;
+    height: 60vh;
+    color: white;
+    text-align: center;
+    padding-top: 4em;
+    background-image: url("../img/background-banner-manual-1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.banner-manual-info {
+    position: inherit;
+    z-index: 1;
+}
+
+.banner-manual-info>h1 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.banner-manual-info>p {
+    font-size: 1.5rem;
+}
+
+.banner-manual::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.281);
+}
+
+.manual-cards {
+    padding: 2em 4em;
+    background-color: white;
+    position: relative;
+    top: -8em;
+    width: 85%;
+    height: 1200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 3vh;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+}
+
+.manual-cards article:last-of-type {
+    grid-column: 2/3;
+}
+
+.video-card {
+    width: 100%;
+    height: 70%;
+    position: relative;
+    cursor: pointer;
+}
+
+.video-card>video {
+    width: 100%;
+    height: 100%;
+}
+
+.video-card::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(65, 41, 22, 0.308);
+}
+
+.info-card {
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 30%;
+}
+
+.info-card>span {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    background-color: rgb(175, 136, 103);
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card-principal {
+    width: 95%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.info-card-principal>ul {
+    display: none;
+}
+
+.info-card-principal>h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.info-card-principal>button {
+    border: none;
+    background-color: rgb(175, 136, 103);
+    width: 50%;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 8px 10px;
+    color: white;
+}
+
+.card-mode-center-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vh;
+    height: 90vh;
+    z-index: 5;
+    background-color: white;
+    border-radius: 5px;
+    display: none;
+}
+
+.card-mode-center-screen .info-card-principal>ul {
+    display: block;
+    font-size: 1rem;
+    margin: .5rem 0;
+    line-height: 1.3rem;
+}
+
+.card-mode-center-screen .info-card-principal>h3 {
+    margin-bottom: 0;
+}
+
+.card-mode-center-screen .video-card {
+    height: 60%;
+}
+
+.card-mode-center-screen .info-card {
+    height: 40%;
+}
+
+@media (max-width: 1000px){
+    .manual-cards {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        height: 1600px;
+        width: 90%;
+    }
+
+    .manual-cards article:last-of-type {
+        grid-column: 1/2;
+    }
+}
+
+@media (max-width: 767px){
+    .manual-cards {
+        top: -4em;
+        height: auto;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: auto;
+    }
+
+    
+}

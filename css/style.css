@@ -349,6 +349,10 @@ main {
     border: 2px solid rgb(131, 102, 78);
     z-index: 2;
     cursor: pointer;
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .disks {
@@ -376,6 +380,23 @@ main {
     height: 50%;
     position: relative;
 }
+
+.guide-solution{
+    width: 25%;
+    height: 100%;
+    overflow-y: scroll;
+    border-radius: 5px;
+    background-color: rgb(175, 136, 103);
+    color: white;
+    padding: 1rem 2rem;
+    display: none;
+    line-height: 1.5rem;
+    position: absolute;
+    top: 1rem;
+    left: -13.5rem;
+    font-size: .8rem;
+}
+
 
 .header-play-game {
     width: 100%;
@@ -418,6 +439,7 @@ main {
 }
 
 .play-game {
+    position: relative;
     width: 70%;
     height: 100vh;
     display: flex;
@@ -438,15 +460,11 @@ main {
     justify-content: space-between;
 }
 
-
 .tower {
     background-color: #ccc;
     width: 1em;
     height: 100%;
     cursor: pointer;
-}
-
-.tower {
     position: absolute;
     height: 120%;
     bottom: 0;
@@ -654,6 +672,22 @@ footer>small {
         width: 100%;
         padding: 10px 0;
     }
+    
+.guide-solution{
+    width: 35%;
+    height: 30%;
+    overflow-y: scroll;
+    border-radius: 5px;
+    background-color: rgb(175, 136, 103);
+    color: white;
+    padding: 1rem 2rem;
+    display: none;
+    line-height: 1.5rem;
+    position: absolute;
+    top:5.5rem;
+    left: 0;
+    font-size: .8rem;
+}
 }
 
 @media(max-width: 765px) {
@@ -694,5 +728,45 @@ footer>small {
     .win-game {
         width: 70%;
         padding: 0 1rem;
+    }
+}
+
+/* .disk{
+    animation-name: goTowerC;
+    animation-duration: 10s;
+} */
+
+@keyframes goTowerC {
+    0%{
+        position: absolute;
+        bottom: 50%
+    }
+    10%{
+        bottom: 100%
+    }20%{
+        bottom: 120%
+    }
+    30%{
+        left: 50%;
+    }
+    40%{
+        left: 100%;
+    }
+    50%{
+        left: 150%;        
+    }
+    70%{
+        left: 200%;
+    }
+    80%{
+
+        left: 250%;
+    }
+    90%{
+        left: 300%;
+    }
+    100%{
+        top: 120%;
+        left: 300%;
     }
 }
