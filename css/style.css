@@ -297,10 +297,9 @@ main {
 /************************** PLAY GAME ************************************/
 .add-disks,
 .look-manual,
-.auto-solve {
+.auto-solve,.solve-automatic {
     width: 60%;
     height: 100%;
-    margin-left: 5px;
     cursor: pointer;
     background-color: rgb(175, 136, 103);
     color: white;
@@ -388,7 +387,7 @@ main {
     border-radius: 5px;
     background-color: rgb(175, 136, 103);
     color: white;
-    padding: 1rem 2rem;
+    padding: 5px 2rem;
     display: none;
     line-height: 1.5rem;
     position: absolute;
@@ -400,7 +399,7 @@ main {
 
 .header-play-game {
     width: 100%;
-    height: 20%;
+    height: 25%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -427,6 +426,15 @@ main {
 
 .info-game {
     width: 20%;
+}
+
+.next-movement{
+    visibility: hidden;
+    color: rgb(175, 136, 103);
+    font-size: 2rem;
+    margin: 0 auto;
+    cursor: pointer;
+    margin-top: 1rem;
 }
 
 .numbers-of-disks {
@@ -476,6 +484,13 @@ main {
 .selected-disk {
     position: absolute;
     top: -6em;
+}
+
+.solve-automatic{
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
 }
 
 .auto-solve {
@@ -667,27 +682,28 @@ footer>small {
         padding: 0;
     }
 
-    .auto-solve {
+    .auto-solve{
         border-radius: 5px;
         width: 100%;
         padding: 10px 0;
     }
-    
-.guide-solution{
-    width: 35%;
-    height: 30%;
-    overflow-y: scroll;
-    border-radius: 5px;
-    background-color: rgb(175, 136, 103);
-    color: white;
-    padding: 1rem 2rem;
-    display: none;
-    line-height: 1.5rem;
-    position: absolute;
-    top:5.5rem;
-    left: 0;
-    font-size: .8rem;
-}
+
+    .guide-solution{
+        width: 35%;
+        height: 30%;
+        overflow-y: scroll;
+        border-radius: 5px;
+        background-color: rgb(175, 136, 103);
+        color: white;
+        padding: 1rem 2rem;
+        display: none;
+        line-height: 1.5rem;
+        position: absolute;
+        top: 5.5rem;
+        left: 0;
+        font-size: .8rem;
+    }
+
 }
 
 @media(max-width: 765px) {
@@ -737,35 +753,45 @@ footer>small {
 } */
 
 @keyframes goTowerC {
-    0%{
+    0% {
         position: absolute;
         bottom: 50%
     }
-    10%{
+
+    10% {
         bottom: 100%
-    }20%{
+    }
+
+    20% {
         bottom: 120%
     }
-    30%{
+
+    30% {
         left: 50%;
     }
-    40%{
+
+    40% {
         left: 100%;
     }
-    50%{
-        left: 150%;        
+
+    50% {
+        left: 150%;
     }
-    70%{
+
+    70% {
         left: 200%;
     }
-    80%{
+
+    80% {
 
         left: 250%;
     }
-    90%{
+
+    90% {
         left: 300%;
     }
-    100%{
+
+    100% {
         top: 120%;
         left: 300%;
     }
