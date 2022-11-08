@@ -76,9 +76,6 @@ body {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
 
-.manual-cards article:last-of-type {
-    grid-column: 2/3;
-}
 
 .video-card {
     width: 100%;
@@ -194,9 +191,6 @@ body {
         width: 90%;
     }
 
-    .manual-cards article:last-of-type {
-        grid-column: 1/2;
-    }
 }
 
 @media (max-width: 767px){

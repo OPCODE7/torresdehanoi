@@ -297,7 +297,7 @@ main {
 /************************** PLAY GAME ************************************/
 .add-disks,
 .look-manual,
-.auto-solve,.solve-automatic {
+.guide-of-movements,.solve-automatic {
     width: 60%;
     height: 100%;
     cursor: pointer;
@@ -391,7 +391,7 @@ main {
     display: none;
     line-height: 1.5rem;
     position: absolute;
-    top: 1rem;
+    top: .8rem;
     left: -13.5rem;
     font-size: .8rem;
 }
@@ -470,7 +470,7 @@ main {
 
 .tower {
     background-color: #ccc;
-    width: 1em;
+    width: 1.1em;
     height: 100%;
     cursor: pointer;
     position: absolute;
@@ -479,6 +479,9 @@ main {
     left: 50%;
     transform: translate(-50%);
     z-index: 1;
+    text-align: center;
+    color: white;
+    font-weight: bold;
 }
 
 .selected-disk {
@@ -493,7 +496,7 @@ main {
     text-align: center;
 }
 
-.auto-solve {
+.guide-of-movements {
     border-radius: 5px;
     width: 100%;
     padding: 10px 0;
@@ -626,7 +629,7 @@ footer>small {
     /************************ PLAY GAME *************************************/
     .add-disks,
     .look-manual,
-    .auto-solve {
+    .guide-of-movements {
         width: 60%;
         margin-left: 0px;
         font-size: .8rem;
@@ -682,7 +685,7 @@ footer>small {
         padding: 0;
     }
 
-    .auto-solve{
+    .guide-of-movements{
         border-radius: 5px;
         width: 100%;
         padding: 10px 0;

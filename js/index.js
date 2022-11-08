@@ -23,7 +23,7 @@ d.addEventListener("DOMContentLoaded", e => {
                 $(".total-movements").textContent = `En hora buena has completado el juego con un total de ${numberOfMovements} movimientos`;
                 setTimeout(() => {
                     reset();
-                }, 1000);
+                }, 500);
             }
         }
     }
@@ -100,6 +100,7 @@ d.addEventListener("DOMContentLoaded", e => {
 
     function reset() {
         solveAuto = false;
+        numberOfMovements= 0;
         addDisks(parseInt($(".disks").value), $towerA);
         $(".guide-solution").style.display = "none";
 
@@ -134,7 +135,6 @@ d.addEventListener("DOMContentLoaded", e => {
     slider(".slider-content");
 
     d.addEventListener("click", e => {
-        e.preventDefault();
         if (e.target.matches(".add-disks")) {
             const $validateMessage = d.querySelector(".validate-message");
             numberOfMovements = 0;
@@ -145,8 +145,8 @@ d.addEventListener("DOMContentLoaded", e => {
                 addDisks(numberOfDisks, $towerA);
                 HanoiAlgorithm(numberOfDisks, "A", "B", "C");
 
-                $(".guide-solution").style.display = "none";
-
+                $guideSolution.style.display = "none";
+                
             }
             if ($(".disks").value === "") {
                 $validateMessage.style.display = "block";
@@ -220,13 +220,14 @@ d.addEventListener("DOMContentLoaded", e => {
             $counterMovements.textContent = "0 movimientos";
         }
 
-        if (e.target.matches(".auto-solve")){
+        if (e.target.matches(".guide-of-movements")){
             if ($towerA.querySelectorAll(".disk").length > 0) {
+                let $listMovements= $guideSolution.children[0].querySelectorAll("li");
+                if($listMovements.length>0)
+                    $listMovements.forEach(el => $guideSolution.querySelector("ol").removeChild(el));
                 
                 movements.forEach(el => {
-                    const $li= d.createElement("li");
-                    $li.textContent=`Mover disco ${el.numberOfDisks} de la torre ${el.towerInitial}  a la torre ${el.towerFinal}`;
-                    $(".guide-solution > ol").appendChild($li);
+                    $guideSolution.querySelector("ol").innerHTML+= `<li>Mover disco ${el.numberOfDisks} de la torre ${el.towerInitial}  a la torre ${el.towerFinal}</li>`;
                 });
                 $guideSolution.style.display = "block";
             }
@@ -306,13 +307,10 @@ d.addEventListener("DOMContentLoaded", e => {
         let value = e.target.value;
         const $button = d.querySelector(".add-disks");
         const $validateMessage = d.querySelector(".validate-message");
-        $button.disabled = "true";
-
-
         $button.disabled = true;
-        $button.classList.add("disabled");
         $validateMessage.style.display = "block";
-        if (!/\d/g.test(value) && !(e.key === "Backspace")) {
+        if (/\D/g.test(value) && (e.key !== "Backspace")) {
+            $button.classList.add("disabled");
             $validateMessage.textContent = "Ingresar solo números!";
             e.target.style.border = "1px solid red";
         } else {
