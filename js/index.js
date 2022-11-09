@@ -3,7 +3,7 @@ d.addEventListener("DOMContentLoaded", e => {
     let $ = selector => d.querySelector(selector);
     let $All = selector => d.querySelectorAll(selector);
     let numberOfMovements = 0, movements = [], index = -1, solveAuto = false;
-    const $towerA = $(".tower-A"), $towerB = $(".tower-B"), $towerC = $(".tower-C"), $bestMovements = $(".best-movements"), $counterMovements = $(".counter-movements"),$guideSolution= $(".guide-solution");;
+    const $towerA = $(".tower-A"), $towerB = $(".tower-B"), $towerC = $(".tower-C"), $bestMovements = $(".best-movements"), $counterMovements = $(".counter-movements"), $guideSolution = $(".guide-solution");;
 
     function HanoiAlgorithm(numberOfDisks, towerInitial, towerAux, towerFinal) {
         if (numberOfDisks === 1) {
@@ -100,9 +100,11 @@ d.addEventListener("DOMContentLoaded", e => {
 
     function reset() {
         solveAuto = false;
-        numberOfMovements= 0;
-        addDisks(parseInt($(".disks").value), $towerA);
-        $(".guide-solution").style.display = "none";
+        numberOfMovements = 0;
+        if (!($(".disks").value === "")) {
+            addDisks(parseInt($(".disks").value), $towerA);
+        }
+        $guideSolution.style.display = "none";
 
         $counterMovements.textContent = `0 Movimientos`;
         $(".next-movement").style.visibility = "hidden";
@@ -146,8 +148,8 @@ d.addEventListener("DOMContentLoaded", e => {
                 HanoiAlgorithm(numberOfDisks, "A", "B", "C");
 
                 $guideSolution.style.display = "none";
-                
             }
+
             if ($(".disks").value === "") {
                 $validateMessage.style.display = "block";
                 $validateMessage.textContent = "Ingresar número de discos";
@@ -211,6 +213,7 @@ d.addEventListener("DOMContentLoaded", e => {
 
         if (e.target.matches(".opacity-to-body")) {
             movements = [];
+            numberOfMovements = 0;
             index = -1;
             $(".opacity-to-body").style.display = "none";
             $(".win-game").style.display = "none";
@@ -220,14 +223,14 @@ d.addEventListener("DOMContentLoaded", e => {
             $counterMovements.textContent = "0 movimientos";
         }
 
-        if (e.target.matches(".guide-of-movements")){
+        if (e.target.matches(".guide-of-movements")) {
             if ($towerA.querySelectorAll(".disk").length > 0) {
-                let $listMovements= $guideSolution.children[0].querySelectorAll("li");
-                if($listMovements.length>0)
+                let $listMovements = $guideSolution.children[0].querySelectorAll("li");
+                if ($listMovements.length > 0)
                     $listMovements.forEach(el => $guideSolution.querySelector("ol").removeChild(el));
-                
+
                 movements.forEach(el => {
-                    $guideSolution.querySelector("ol").innerHTML+= `<li>Mover disco ${el.numberOfDisks} de la torre ${el.towerInitial}  a la torre ${el.towerFinal}</li>`;
+                    $guideSolution.querySelector("ol").innerHTML += `<li>Mover disco ${el.numberOfDisks} de la torre ${el.towerInitial}  a la torre ${el.towerFinal}</li>`;
                 });
                 $guideSolution.style.display = "block";
             }
@@ -236,7 +239,7 @@ d.addEventListener("DOMContentLoaded", e => {
         if (e.target.matches(".solve-automatic")) {
             solveAuto = true;
             numberOfMovements = 0;
-            if (solveAuto && $All(".tower-A > .disk").length>0) {
+            if (solveAuto && $All(".tower-A > .disk").length > 0) {
                 addDisks(parseInt($(".disks").value), $towerA);
                 $counterMovements.textContent = `0 movimientos`;
                 $(".next-movement").style.visibility = "visible";
@@ -248,51 +251,42 @@ d.addEventListener("DOMContentLoaded", e => {
             const $disksB = $All(".tower-B > .disk");
             const $disksC = $All(".tower-C > .disk");
             index++;
-            let arrayWithSolution;
+            let objectWithInfoOfMovement;
             let towerInitial, towerFinal, nDisk;
 
-            if (index < movements.length) {
-                arrayWithSolution = movements[index];
-                towerInitial = arrayWithSolution.towerInitial;
-                towerFinal = arrayWithSolution.towerFinal;
-                nDisk = arrayWithSolution.numberOfDisks;
+            if (index < movements.length){
+                objectWithInfoOfMovement = movements[index];
+                towerInitial = objectWithInfoOfMovement.towerInitial;
+                towerFinal = objectWithInfoOfMovement.towerFinal;
+                nDisk = objectWithInfoOfMovement.numberOfDisks;
                 numberOfMovements++;
+
                 $counterMovements.textContent = `${numberOfMovements} movimientos`;
+
                 if (towerInitial === "A" && towerFinal === "B") {
                     $disksA.forEach(disk => {
-                        if (nDisk == disk.getAttribute("id")) {
-                            $towerB.prepend(disk);
-                        }
+                        if (nDisk == disk.getAttribute("id")) $towerB.prepend(disk);
                     });
                 } else if (towerInitial === "A" && towerFinal === "C") {
                     $disksA.forEach(disk => {
-                        if (nDisk == disk.getAttribute("id")) {
-                            $towerC.prepend(disk);
-                        }
+                        if (nDisk == disk.getAttribute("id")) $towerC.prepend(disk);
                     });
                 } else if (towerInitial === "B" && towerFinal === "A") {
                     $disksB.forEach(disk => {
-                        if (nDisk == disk.getAttribute("id")) {
-                            $towerA.prepend(disk);
-                        }
+                        if (nDisk == disk.getAttribute("id")) $towerA.prepend(disk);
                     });
                 } else if (towerInitial === "B" && towerFinal === "C") {
                     $disksB.forEach(disk => {
-                        if (nDisk == disk.getAttribute("id")) {
-                            $towerC.prepend(disk);
-                        }
+                        if (nDisk == disk.getAttribute("id")) $towerC.prepend(disk);
                     });
                 } else if (towerInitial === "C" && towerFinal === "A") {
                     $disksC.forEach(disk => {
-                        if (nDisk == disk.getAttribute("id")) {
-                            $towerA.prepend(disk);
-                        }
+                        if (nDisk == disk.getAttribute("id")) $towerA.prepend(disk);
+                        
                     });
                 } else if (towerInitial === "C" && towerFinal === "B") {
                     $disksC.forEach(disk => {
-                        if (nDisk == disk.getAttribute("id")) {
-                            $towerB.prepend(disk);
-                        }
+                        if (nDisk == disk.getAttribute("id")) $towerB.prepend(disk);
                     });
                 }
 
@@ -301,37 +295,34 @@ d.addEventListener("DOMContentLoaded", e => {
         }
     });
 
-    
+
 
     d.querySelector(".disks").addEventListener("keyup", e => {
         let value = e.target.value;
         const $button = d.querySelector(".add-disks");
         const $validateMessage = d.querySelector(".validate-message");
-        $button.disabled = true;
-        $validateMessage.style.display = "block";
-        if (/\D/g.test(value) && (e.key !== "Backspace")) {
-            $button.classList.add("disabled");
-            $validateMessage.textContent = "Ingresar solo números!";
-            e.target.style.border = "1px solid red";
-        } else {
+        let resetDesign = () => {
             $button.removeAttribute("disabled");
             $validateMessage.style.display = "none";
             e.target.style.border = "1px solid #ccc";
             $button.classList.remove("disabled");
-
-            if (parseInt(value) <= 0 || parseInt(value) > 8) {
-                $button.classList.add("disabled");
-                $button.disabled = true;
-                $validateMessage.style.display = "block";
-                $validateMessage.textContent = "Ingresar cantidad en el rango 1-8";
-                e.target.style.border = "1px solid red";
-            } else {
-                $button.removeAttribute("disabled");
-                $button.classList.remove("disabled");
-                $validateMessage.style.display = "none";
-                e.target.style.border = "1px solid #ccc";
-            }
         }
 
+        let validateDesign = () => {
+            $button.classList.add("disabled");
+            $button.disabled = true;
+            $validateMessage.style.display = "block";
+            e.target.style.border = "1px solid red";
+        }
+
+        if (/\D/g.test(value) && (e.key !== "Backspace")) {
+            validateDesign();
+            $validateMessage.textContent = "Ingresar solo números!";
+        } else if (parseInt(value) <= 0 || parseInt(value) > 8) {
+            validateDesign();
+            $validateMessage.textContent = "Ingresar cantidad en el rango 1-8";
+        } else {
+            resetDesign();
+        }
     });
 });
